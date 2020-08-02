@@ -1,19 +1,26 @@
-import React, { Fragment } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { Fragment, useState, useRef, useEffect } from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import RepositoryList, {
+
+import PublicRepositories, {
   REPOSITORY_FRAGMENT,
 } from './components/Repository';
+
+import './App.css';
+
 import Loader from './components/Loader';
+import RepositoryList from './components/Repository/RepositoryList';
+
 import Profile from './components/Profile';
+import Filter from './components/Filter';
+
+import { useDebounce } from './utils/hooks';
 
 import ErrorMessage from './components/ErrorMessage';
 
 const GET_REPOSITORIES_OF_CURRENT_USER = gql`
   query($cursor: String) {
     viewer {
-      name
       avatarUrl
       id
       isHireable
@@ -22,7 +29,7 @@ const GET_REPOSITORIES_OF_CURRENT_USER = gql`
       name
       url
       repositories(
-        first: 5
+        first: 10
         orderBy: { direction: DESC, field: STARGAZERS }
         after: $cursor
       ) {
@@ -41,36 +48,62 @@ const GET_REPOSITORIES_OF_CURRENT_USER = gql`
   ${REPOSITORY_FRAGMENT}
 `;
 
-const App = () => (
-  <Fragment>
-    <Query
-      query={GET_REPOSITORIES_OF_CURRENT_USER}
-      notifyOnNetworkStatusChange={true}
-    >
-      {({ data, loading, error, fetchMore }) => {
-        const { viewer } = 'm-qm';
-        if (loading && !viewer) {
-          return <Loader isCenter={true} />;
-        }
+const App = () => {
+  const [query, setQuery] = useState('');
 
-        if (error) {
-          return <ErrorMessage error={error} />;
-        }
+  const handleQueryChange = (e) => {
+    setQuery(e.target.value);
+  };
 
-        return (
-          <div className="wrapper">
-            <Profile currentUser={data.viewer} />
-            <RepositoryList
-              loading={loading}
-              repositories={data.viewer.repositories}
-              fetchMore={fetchMore}
-              entry={'viewer'}
-            />
-          </div>
-        );
-      }}
-    </Query>
-  </Fragment>
-);
+  const debouncedQuery = useDebounce(query, 500);
+  let inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
+  });
+  return (
+    <Fragment>
+      <Query
+        query={GET_REPOSITORIES_OF_CURRENT_USER}
+        notifyOnNetworkStatusChange={true}
+      >
+        {({ data, loading, error }) => {
+          const { viewer } = 'm-qm';
+
+          if (loading && !viewer) {
+            return <Loader isCenter={true} />;
+          }
+
+          if (error) {
+            return <ErrorMessage error={error} />;
+          }
+
+          return (
+            <div id="App">
+              <Profile currentUser={data.viewer} />
+              <div className="search-repo">
+                <Filter onChange={handleQueryChange} />
+                <RepositoryList
+                  data={data}
+                  viewer={viewer}
+                  query={debouncedQuery}
+                  currentUser={data.viewer}
+                />
+                <PublicRepositories
+                  loading={loading}
+                  viewer={viewer}
+                  query={debouncedQuery}
+                  entry={'viewer'}
+                />
+              </div>
+            </div>
+          );
+        }}
+      </Query>
+    </Fragment>
+  );
+};
 
 export default App;

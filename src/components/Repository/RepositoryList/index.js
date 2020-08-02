@@ -1,11 +1,11 @@
-/* eslint-disable react/prop-types */
 import React, { Fragment } from 'react';
 
 import FetchMore from '../../FetchMore';
 import RepositoryItem from '../RepositoryItem';
-import { Pane } from 'evergreen-ui';
 
-import '../style.css';
+import gql from 'graphql-tag';
+
+import './style.css';
 
 const getUpdateQuery = (entry) => (
   previousResult,
@@ -31,40 +31,89 @@ const getUpdateQuery = (entry) => (
   };
 };
 
+export const SEARCH_FOR_REPOS = gql`
+  query($search_term: String!) {
+    search(
+      query: $search_term
+      type: REPOSITORY
+      first: 50
+      user: "m-qm"
+    ) {
+      repositoryCount
+      edges {
+        node {
+          ... on User {
+            login
+          }
+          ... on Repository {
+            id
+            name
+            updated_at
+            owner {
+              login
+              avatarUrl
+            }
+            stargazers {
+              totalCount
+            }
+            descriptionHTML
+            primaryLanguage {
+              name
+            }
+            forkCount
+          }
+        }
+      }
+    }
+  }
+`;
+
 const RepositoryList = ({
-  repositories,
   loading,
   fetchMore,
   entry,
-}) => (
-  <Fragment>
-    <Pane
-      float="right"
-      backgroundColor="white"
-      width="75%"
-      display="flex"
-      flexDirection="column"
-      border="none"
-    >
-      {repositories.edges.map(({ node }) => (
-        <div key={node.id} className="RepositoryItem">
-          <RepositoryItem {...node} />
-        </div>
-      ))}
-
-      <FetchMore
-        loading={loading}
-        hasNextPage={repositories.pageInfo.hasNextPage}
-        variables={{
-          cursor: repositories.pageInfo.endCursor,
-        }}
-        updateQuery={getUpdateQuery(entry)}
-        fetchMore={fetchMore}
-      >
-        Repositories
-      </FetchMore>
-    </Pane>
-  </Fragment>
-);
-
+  data,
+  query,
+}) => {
+  if (!query) {
+    return (
+      <Fragment>
+        {data.viewer &&
+          data.viewer.repositories.edges.map(({ node }) => (
+            <div key={node.id} className="RepositoryItem">
+              <RepositoryItem {...node} />
+            </div>
+          ))}
+        <FetchMore
+          loading={loading}
+          hasNextPage={
+            data.search
+              ? data.search.pageInfo.hasNextPage
+              : data.viewer.hasNextPage
+          }
+          variables={{
+            cursor: data.search
+              ? data.search.pageInfo.endCursor
+              : data.viewer.hasNextPage,
+          }}
+          updateQuery={getUpdateQuery(entry)}
+          fetchMore={fetchMore}
+        >
+          Repositories
+        </FetchMore>
+      </Fragment>
+    );
+  } else {
+    return (
+      <Fragment>
+        {data.search &&
+          data.search.edges.map(({ node }) => (
+            <div className="repo-container" key={node.id}>
+              <RepositoryItem {...node} />
+            </div>
+          ))}
+      </Fragment>
+    );
+  }
+};
 export default RepositoryList;

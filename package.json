@@ -13,7 +13,7 @@
     "@apollo/react-hooks": "^3.1.2",
     "@types/react": "^16.9.43",
     "apollo-cache-inmemory": "^1.6.3",
-    "apollo-client": "^2.6.10",
+    "apollo-client": "^2.6.0",
     "apollo-link": "^1.2.13",
     "apollo-link-context": "^1.0.19",
     "apollo-link-error": "^1.1.13",
@@ -22,18 +22,20 @@
     "babel-plugin-emotion": "^10.0.21",
     "evergreen-ui": "^4.29.1",
     "flexboxgrid": "^6.3.1",
-    "graphql": "^14.7.0",
+    "graphql": "*",
     "graphql-tag": "^2.10.1",
     "json5": "^2.1.0",
     "lowdb": "^1.0.0",
     "nanoid": "^2.1.1",
     "react": "^16.8.0",
     "react-apollo": "^3.1.5",
+    "react-apollo-hooks": "^0.5.0",
     "react-dom": "^16.8.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-select": "^3.0.8",
-    "react-spinners": "^0.6.1"
+    "react-spinners": "^0.6.1",
+    "use-debounce": "^3.4.3"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.10.4",
@@ -46,6 +48,7 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "parcel-bundler": "^1.12.4",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "sass": "^1.26.10"
   }
 }

@@ -1,0 +1,31 @@
+#info {
+  max-width: 25%;
+  display: flex;
+  padding: 30px;
+  flex-direction: column;
+}
+
+#info img {
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+}
+
+#info h1 .username {
+  color: #666;
+  font-size: 20px;
+  font-weight: 200;
+}
+
+#info div {
+  margin: 10px 0;
+}
+
+#info button {
+  width: 230px;
+  margin: 5px 0;
+  padding: 7px 0;
+  cursor: pointer;
+  background: #eff3f6;
+  border: 1px silver solid;
+}
