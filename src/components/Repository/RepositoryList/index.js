@@ -1,80 +1,14 @@
 import React, { Fragment } from 'react';
 
-import FetchMore from '../../FetchMore';
 import RepositoryItem from '../RepositoryItem';
-
-import gql from 'graphql-tag';
+import Loader from '../../Loader';
 
 import './style.css';
 
-const getUpdateQuery = (entry) => (
-  previousResult,
-  { fetchMoreResult },
-) => {
-  if (!fetchMoreResult) {
-    return previousResult;
+const RepositoryList = ({ loading, data, query }) => {
+  if (loading) {
+    return <Loader />;
   }
-
-  return {
-    ...previousResult,
-    [entry]: {
-      ...previousResult[entry],
-      repositories: {
-        ...previousResult[entry].repositories,
-        ...fetchMoreResult[entry].repositories,
-        edges: [
-          ...previousResult[entry].repositories.edges,
-          ...fetchMoreResult[entry].repositories.edges,
-        ],
-      },
-    },
-  };
-};
-
-export const SEARCH_FOR_REPOS = gql`
-  query($search_term: String!) {
-    search(
-      query: $search_term
-      type: REPOSITORY
-      first: 50
-      user: "m-qm"
-    ) {
-      repositoryCount
-      edges {
-        node {
-          ... on User {
-            login
-          }
-          ... on Repository {
-            id
-            name
-            updatedAt
-            owner {
-              login
-              avatarUrl
-            }
-            stargazers {
-              totalCount
-            }
-            descriptionHTML
-            primaryLanguage {
-              name
-            }
-            forkCount
-          }
-        }
-      }
-    }
-  }
-`;
-
-const RepositoryList = ({
-  loading,
-  fetchMore,
-  entry,
-  data,
-  query,
-}) => {
   if (!query) {
     return (
       <Fragment>
@@ -84,23 +18,6 @@ const RepositoryList = ({
               <RepositoryItem {...node} />
             </div>
           ))}
-        <FetchMore
-          loading={loading}
-          hasNextPage={
-            data.search
-              ? data.search.pageInfo.hasNextPage
-              : data.viewer.hasNextPage
-          }
-          variables={{
-            cursor: data.search
-              ? data.search.pageInfo.endCursor
-              : data.viewer.hasNextPage,
-          }}
-          updateQuery={getUpdateQuery(entry)}
-          fetchMore={fetchMore}
-        >
-          Repositories
-        </FetchMore>
       </Fragment>
     );
   } else {

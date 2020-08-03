@@ -28,6 +28,12 @@ const GET_CURRENT_USER = gql`
             name
             description
             url
+            languages(first: 5) {
+              nodes {
+                name
+                color
+              }
+            }
             updatedAt
             owner {
               login
@@ -62,7 +68,6 @@ const PublicRepositories = ({ query }) => {
         if (loading && !data) {
           return null;
         }
-
         return (
           <RepositoryList
             query={query}

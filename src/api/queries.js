@@ -60,13 +60,3 @@ export const SEARCH_FOR_REPOS = gql`
     }
   }
 `;
-
-export const FILTER_BY_NAME = gql`
-  query filterByName($owner: String!, $name: String!) {
-    repository(owner: $owner, name: $name) {
-      id
-      name
-    }
-  }
-  ${REPOSITORY_FRAGMENT}
-`;

@@ -33,7 +33,7 @@
 }
 
 .dummy-tabs ul li:nth-of-type(2) {
-  border-bottom: 2px red solid;
+  border-bottom: 2px #f9816c solid;
 }
 
 .dummy-tabs ul li:nth-of-type(2) a {

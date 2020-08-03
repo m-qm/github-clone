@@ -50,6 +50,7 @@ const GET_REPOSITORIES_OF_CURRENT_USER = gql`
 
 const App = () => {
   const [query, setQuery] = useState('');
+  const [tab, setTab] = useState('');
 
   const handleQueryChange = (e) => {
     setQuery(e.target.value);
@@ -57,6 +58,10 @@ const App = () => {
 
   const debouncedQuery = useDebounce(query + 'user:m-qm', 500);
   let inputRef = useRef(null);
+  const onChangeHandler = (e) => {
+    setTab(tab, e.target.value);
+    console.log(tab, e.target.value);
+  };
 
   useEffect(() => {
     if (inputRef && inputRef.current) {
@@ -82,10 +87,14 @@ const App = () => {
             <div id="App">
               <Profile currentUser={data.viewer} />
               <div className="search-repo">
-                <Filter onChange={handleQueryChange} />
+                <Filter
+                  onChange={handleQueryChange}
+                  onChangeHandler={onChangeHandler}
+                />
                 <RepositoryList
                   data={data}
                   query={debouncedQuery}
+                  filter={onChangeHandler}
                   currentUser={data.viewer}
                 />
                 <PublicRepositories

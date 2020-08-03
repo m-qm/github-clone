@@ -24,3 +24,24 @@
   color: #0366d6;
   text-decoration: none;
 }
+
+.repo-language {
+  display: flex;
+  padding-top: 12px;
+  flex-direction: row;
+  width: 80%;
+  padding-left: 3px;
+  justify-content: left;
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  /* margin: 2px 4px; */
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.repo-updated {
+  padding-left: 15px;
+}

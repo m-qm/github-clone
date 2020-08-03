@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, Fragment } from 'react';
 import './style.css';
 
-const Filter = ({ onChange }) => {
+const Filter = ({ onChange, onChangeHandler }) => {
   const dummyTabsList = [
     'Overview',
     'Repositories',
@@ -50,7 +50,7 @@ const Filter = ({ onChange }) => {
             type="text"
           />
         </label>
-        <div className="select">
+        <div className="select" onChange={onChangeHandler}>
           <label className="select-type">
             Type:
             <select name="" id="type">
