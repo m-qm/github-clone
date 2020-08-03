@@ -48,7 +48,7 @@ export const SEARCH_FOR_REPOS = gql`
           ... on Repository {
             id
             name
-            updated_at
+            updatedAt
             owner {
               login
               avatarUrl
@@ -108,9 +108,7 @@ const RepositoryList = ({
       <Fragment>
         {data.search &&
           data.search.edges.map(({ node }) => (
-            <div className="repo-container" key={node.id}>
-              <RepositoryItem {...node} />
-            </div>
+            <RepositoryItem {...node} key={node.id} />
           ))}
       </Fragment>
     );

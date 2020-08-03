@@ -12,7 +12,7 @@ const GET_CURRENT_USER = gql`
     search(
       query: $query
       type: REPOSITORY
-      first: 10
+      first: 40
       after: $cursor
     ) {
       repositoryCount
@@ -28,6 +28,7 @@ const GET_CURRENT_USER = gql`
             name
             description
             url
+            updatedAt
             owner {
               login
               url
@@ -42,11 +43,11 @@ const GET_CURRENT_USER = gql`
   }
 `;
 
-const PublicRepositories = ({ query, viewer }) => {
+const PublicRepositories = ({ query }) => {
   return (
     <Query
       query={GET_CURRENT_USER}
-      variables={{ query, owner: viewer }}
+      variables={{ query }}
       notifyOnNetworkStatusChange={true}
     >
       {({ data, loading, error, fetchMore }) => {

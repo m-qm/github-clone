@@ -4,6 +4,10 @@
   border-top: 1px #00000033 solid;
 }
 
+.repo-name {
+  word-wrap: break-word;
+}
+
 .repo-container .repo-meta {
   display: -webkit-box;
   display: -ms-flexbox;

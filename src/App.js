@@ -55,7 +55,7 @@ const App = () => {
     setQuery(e.target.value);
   };
 
-  const debouncedQuery = useDebounce(query, 500);
+  const debouncedQuery = useDebounce(query + 'user:m-qm', 500);
   let inputRef = useRef(null);
 
   useEffect(() => {
@@ -70,9 +70,7 @@ const App = () => {
         notifyOnNetworkStatusChange={true}
       >
         {({ data, loading, error }) => {
-          const { viewer } = 'm-qm';
-
-          if (loading && !viewer) {
+          if (loading) {
             return <Loader isCenter={true} />;
           }
 
@@ -87,13 +85,12 @@ const App = () => {
                 <Filter onChange={handleQueryChange} />
                 <RepositoryList
                   data={data}
-                  viewer={viewer}
                   query={debouncedQuery}
                   currentUser={data.viewer}
                 />
                 <PublicRepositories
                   loading={loading}
-                  viewer={viewer}
+                  currentUser={data.viewer}
                   query={debouncedQuery}
                   entry={'viewer'}
                 />

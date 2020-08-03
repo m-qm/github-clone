@@ -9,7 +9,7 @@ const RepositoryItem = ({
   primaryLanguage,
   owner,
   description,
-  updated_at,
+  updatedAt,
 }) => (
   <div className="repo-container">
     <h2>
@@ -34,7 +34,7 @@ const RepositoryItem = ({
             </span>
           )}
           <div className="repo-updated">
-            Updated At: {new Date(updated_at).toDateString()}
+            Updated At: {new Date(updatedAt).toDateString()}
           </div>
         </div>
       </div>

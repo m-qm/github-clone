@@ -13,6 +13,7 @@ export default function Profile({ currentUser }) {
     company,
     email,
   } = currentUser;
+  console.log(currentUser);
   return (
     <Fragment>
       <div id="info">
