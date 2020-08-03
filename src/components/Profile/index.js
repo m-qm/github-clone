@@ -35,21 +35,7 @@ const USER_QUERY = gql`
 `;
 
 export default function Profile({ currentUser }) {
-  const {
-    avatarUrl,
-    // name,
-    // login,
-    location,
-    blog,
-    // bio,
-    company,
-    // totalStarCount,
-    // followers,
-    // following,
-    // stars,
-    // email,
-  } = currentUser;
-  console.log(currentUser);
+  const { avatarUrl, location, blog, company } = currentUser;
   return (
     <Fragment>
       <Query query={USER_QUERY} notifyOnNetworkStatusChange={true}>

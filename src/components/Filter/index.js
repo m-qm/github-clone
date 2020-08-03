@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, Fragment } from 'react';
 import './style.css';
 
-const Filter = ({ onChange, repositoryCount }) => {
+const Filter = ({ onChange }) => {
   const dummyTabsList = [
     'Overview',
     'Repositories',
@@ -14,22 +14,7 @@ const Filter = ({ onChange, repositoryCount }) => {
     </li>
   ));
 
-  const typeOptions = [
-    'All',
-    'Public',
-    'Private',
-    'Source',
-    'Fork',
-    'Archived',
-    'Mirrors',
-  ].map((type) => (
-    <option value={type.toLowerCase()} key={type}>
-      {type}
-    </option>
-  ));
-
   let inputRef = useRef(null);
-  console.log(repositoryCount);
 
   useEffect(() => {
     if (inputRef && inputRef.current) {
@@ -51,13 +36,7 @@ const Filter = ({ onChange, repositoryCount }) => {
             type="text"
           />
         </label>
-        <div className="select">
-          <label className="select-type">
-            Type:
-            <select name="" id="type">
-              {typeOptions}
-            </select>
-          </label>
+        <div className="button-wrapper">
           <button className="btn" onClick={(e) => e.preventDefault()}>
             New
           </button>
