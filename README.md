@@ -20,6 +20,4 @@ User repository finder. Build with Parcel + React + GraphQL
 
 ## Feedback
 
-Please, any feedback is more than welcome!
-
-:heart:
+Any feedback is more than welcome!

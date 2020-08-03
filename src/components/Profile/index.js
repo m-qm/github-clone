@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import './Profile.css';
+import './style.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
