@@ -9,8 +9,30 @@ import {
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+import Loader from '../Loader';
+
+import ErrorMessage from '../ErrorMessage';
+
 // Some properties are hardcoded as they are not
 // specified in my gitProfile
+
+const USER_QUERY = gql`
+  {
+    user(login: "m-qm") {
+      followers(first: 100) {
+        totalCount
+      }
+      starredRepositories(first: 100) {
+        totalCount
+      }
+      following {
+        totalCount
+      }
+    }
+  }
+`;
 
 export default function Profile({ currentUser }) {
   const {
@@ -30,36 +52,51 @@ export default function Profile({ currentUser }) {
   console.log(currentUser);
   return (
     <Fragment>
-      <div id="info">
-        <img src={avatarUrl} alt={avatarUrl} />
-        <h1>
-          <div className="name">Mireia Querol</div>
-          <div className="username">@m-qm</div>
-        </h1>
-        <div className="bio">Frontend Developer</div>
-        <button appearance="default">Follow</button>
+      <Query query={USER_QUERY} notifyOnNetworkStatusChange={true}>
+        {({ data, loading, error }) => {
+          if (loading) {
+            return <Loader isCenter={true} />;
+          }
 
-        <div className="secondary-info-wrapper">
-          <div className="star">
-            19 <FontAwesomeIcon icon={faStar} />
-          </div>
-          <div className="following">67 following</div>
-          <div className="users">
-            69
-            <FontAwesomeIcon icon={faUsers} />
-          </div>
-        </div>
-        {company && <div className="company">{company}</div>}
-        {location && <div className="location">{location}</div>}
-        {blog && <div className="blog">{blog}</div>}
+          if (error) {
+            return <ErrorMessage error={error} />;
+          }
+          return (
+            <div id="info">
+              <img src={avatarUrl} alt={avatarUrl} />
+              <h1>
+                <div className="name">Mireia Querol</div>
+                <div className="username">@m-qm</div>
+              </h1>
+              <div className="bio">Frontend Developer</div>
+              <button appearance="default">Follow</button>
 
-        <div className="email-wrapper">
-          <FontAwesomeIcon icon={faEnvelope} />
-          <div className="email">mireiaquerol@gmail.com</div>
-        </div>
+              <div className="secondary-info-wrapper">
+                <div className="star">
+                  19 <FontAwesomeIcon icon={faStar} />
+                </div>
+                <div className="following">
+                  {data.user.following.totalCount} following
+                </div>
+                <div className="users">
+                  {data.user.followers.totalCount}
+                  <FontAwesomeIcon icon={faUsers} />
+                </div>
+              </div>
+              {company && <div className="company">{company}</div>}
+              {location && <div className="location">{location}</div>}
+              {blog && <div className="blog">{blog}</div>}
 
-        <div className="organizations"></div>
-      </div>
+              <div className="email-wrapper">
+                <FontAwesomeIcon icon={faEnvelope} />
+                <div className="email">mireiaquerol@gmail.com</div>
+              </div>
+
+              <div className="organizations"></div>
+            </div>
+          );
+        }}
+      </Query>
     </Fragment>
   );
 }
