@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, Fragment } from 'react';
 import './style.css';
 
-const Filter = ({ onChange, onChangeHandler }) => {
+const Filter = ({ onChange, repositoryCount }) => {
   const dummyTabsList = [
     'Overview',
     'Repositories',
@@ -29,6 +29,7 @@ const Filter = ({ onChange, onChangeHandler }) => {
   ));
 
   let inputRef = useRef(null);
+  console.log(repositoryCount);
 
   useEffect(() => {
     if (inputRef && inputRef.current) {
@@ -50,7 +51,7 @@ const Filter = ({ onChange, onChangeHandler }) => {
             type="text"
           />
         </label>
-        <div className="select" onChange={onChangeHandler}>
+        <div className="select">
           <label className="select-type">
             Type:
             <select name="" id="type">

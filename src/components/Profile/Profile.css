@@ -18,7 +18,7 @@
 }
 
 #info div {
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 #info button {
@@ -28,4 +28,25 @@
   cursor: pointer;
   background: #eff3f6;
   border: 1px silver solid;
+}
+
+.email-wrapper {
+  display: flex;
+  justify-content: left;
+  text-align: center;
+}
+
+.email-wrapper > svg {
+  margin-top: 6px;
+  margin-right: 6px;
+}
+
+.secondary-info-wrapper {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.users > svg {
+  margin-left: 6px;
 }

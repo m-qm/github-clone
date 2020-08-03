@@ -17,7 +17,6 @@ const RepositoryItem = ({
   const languagesColor = languages.nodes[0]
     ? languages.nodes[0].color
     : '';
-  console.log(languagesMap);
   return (
     <div className="repo-container">
       <h2>
