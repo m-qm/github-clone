@@ -59,7 +59,7 @@ export default function Profile({ currentUser }) {
 
               <div className="secondary-info-wrapper">
                 <div className="star">
-                  19 <FontAwesomeIcon icon={faStar} />
+                  {data.user.starredRepositories.totalCount} <FontAwesomeIcon icon={faStar} />
                 </div>
                 <div className="following">
                   {data.user.following.totalCount} following
