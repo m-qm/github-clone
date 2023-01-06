@@ -27,7 +27,7 @@
     "flexboxgrid": "^6.3.1",
     "graphql": "*",
     "graphql-tag": "^2.10.1",
-    "json5": "^2.1.0",
+    "json5": "^2.2.2",
     "lowdb": "^1.0.0",
     "react": "16.x",
     "react-apollo": "^3.1.5",
